@@ -3,7 +3,7 @@ import useOrders from "@/utils/manageOrders";
 import { FormValuesTypes } from "@/utils/Types"
 import { Button, Card, Col, Popconfirm, Row } from "antd"
 
-function OrderCard({ id, name, description, orders, payment_status }: FormValuesTypes) {
+function OrderCard({ id, name, description, orders, payment_status, payment_form, cash_input }: FormValuesTypes) {
     const { finishPayment, finishOrder } = useOrders()
     function countTotal() {
         let total = 0;
@@ -17,7 +17,7 @@ function OrderCard({ id, name, description, orders, payment_status }: FormValues
     return (
         <>
             <Card
-                title={ name }
+                title={`${name} - ${payment_form} ${cash_input ? `${cash_input}` : ''}`}
                 size="small"
                 style={{ border: "solid 0.5px #bbbbbb", marginBottom: '1rem', width: "280px" }}
                 actions={[

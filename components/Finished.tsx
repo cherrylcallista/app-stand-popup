@@ -14,8 +14,25 @@ function Finished() {
         )
     }
 
+    function countPaymentForm(paymentForm: string) {
+        let total = 0;
+        orders.map(o => {
+            if (o.payment_form === paymentForm) {
+                total += 1
+            }
+        })
+
+        return total
+    }
+
     return (
         <div>
+            <div className="flex gap-4 mb-4 font-bold">
+                <p>Cash: { countPaymentForm("Cash") }</p>
+                <p>Qris: { countPaymentForm("Qris") }</p>
+                <p>ShopeePay: { countPaymentForm("ShopeePay") }</p>
+            </div>
+
         {
             finishedOrder.map((o, i)=> (
                 <div key={i}>

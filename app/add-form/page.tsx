@@ -15,13 +15,15 @@ type InitialFormValuesTypes = {
     name: string;
     description?: string;
     payment_status: 0 | 1;
+    payment_form: "Cash" | "Qris" | "ShopeePay";
 }
 
 function page() {
     const router = useRouter()
     const [ form ] = Form.useForm();
     const [ isSubmitting, setIsSubmitting ] = useState(false);
-    const [ messageApi, contextHolder ] = message.useMessage()
+    const [ messageApi, contextHolder ] = message.useMessage();
+    const [ cashInput, setCashInput ] = useState(true)
     const { add } = useOrders()
 
     function SubmitButton() {
@@ -66,7 +68,8 @@ function page() {
                 className="space-y-4"
                 onFinish={onSubmit}
                 initialValues={{
-                    payment_status: 0
+                    payment_status: 0,
+                    payment_form: "Cash"
                 }}
             >
                 <Title level={5} className="text-gray-700 font-semibold mb-2">
@@ -94,6 +97,41 @@ function page() {
                         rows={4} 
                     />
                 </Form.Item>
+
+                {/* Payment Form */}
+                <Form.Item
+                    name="payment_form"
+                    label={<Title level={5} className="text-gray-700 font-semibold mb-2">Payment Form</Title>}
+                    className="mt-6"
+                    required
+                >
+                    <Radio.Group
+                        onChange={(e) => {
+                            if (e.target.value === "Cash") {
+                                setCashInput(true)
+                            } else {
+                                setCashInput(false)
+                            }
+                        }}
+                        options={[
+                            { value: "Cash", label: 'Cash' },
+                            { value: "Qris", label: 'Qris BCA' },
+                            { value: "ShopeePay", label: 'Shopee Pay' },
+                        ]}
+                    />
+                </Form.Item>
+
+                {
+                    cashInput &&
+                    <Form.Item
+                        name="cash_input"
+                        label={<Title level={5} className="text-gray-700 font-semibold mb-2">Cash Input</Title>}
+                        className="mt-6"
+                        required
+                    >
+                        <Input required size="large" />
+                    </Form.Item>
+                }
 
                 {/* Payment Status */}
                 <Form.Item

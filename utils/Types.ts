@@ -17,6 +17,8 @@ type FormValuesTypes = {
     name: string;
     description?: string;
     payment_status: 0 | 1; 
+    payment_form: "Cash" | "Qris" | "ShopeePay";
+    cash_input?: number;
     finished: boolean;
 };
 
